@@ -5,6 +5,7 @@ import deliveryservice.entity.User;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -27,6 +28,12 @@ public class UserService {
                 .flatMap(Collection::stream)
                 .sorted(Comparator.comparing(Order::getPrice))
                 .collect(Collectors.toList());
+    }
+    
+    public static Map<Integer, List<Order>> groupOrdersByPrice(List<Order> orders) {
+        return orders.stream()
+                .sorted(Comparator.comparing(Order::getPrice))
+                .collect(Collectors.groupingBy(Order::getPrice));
     }
     
     public static boolean checkIfOrdersAreExpensive(User user, int minPrice) {
